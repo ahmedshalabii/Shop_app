@@ -7,7 +7,18 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
 body:Container(
 
-  child: Center(child: Image(image:AssetImage('assets/images/empty_cart.png'),fit: BoxFit.fill,height: double.infinity,)),
+  child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                            image: AssetImage('assets/images/empty_cart.png')),
+                        Text(
+                          'Your cart is empty, browse more!',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ]),
+                ),
 )
     );
   }

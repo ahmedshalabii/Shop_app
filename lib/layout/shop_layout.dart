@@ -34,7 +34,6 @@ class _ShopLayoutState extends State<ShopLayout> {
                   color: HexColor('e63946')),
             ),
             actions: [
-
               IconButton(
                 icon: Icon(
                   Icons.search,
@@ -75,13 +74,14 @@ class _ShopLayoutState extends State<ShopLayout> {
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.apps,
+                        Icons.shopping_cart_outlined,
                         size: 33,
                       ),
-                      label: 'Categories',
+                      label: 'Carts',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
+
                         Icons.favorite,
                         size: 33,
                       ),
@@ -103,6 +103,4 @@ class _ShopLayoutState extends State<ShopLayout> {
       },
     );
   }
-
-
 }
