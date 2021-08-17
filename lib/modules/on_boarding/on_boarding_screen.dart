@@ -27,17 +27,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   List<BoardingModel> boarding = [
     BoardingModel(
-      image: 'assets/images/onboard_1.jpg',
+      image: 'assets/images/onboard1.jpg',
       title: 'On Board 1 Title',
       body: 'On Board 1 Body',
     ),
     BoardingModel(
-      image: 'assets/images/onboard_1.jpg',
+      image: 'assets/images/onboard2.png',
       title: 'On Board 2 Title',
       body: 'On Board 2 Body',
     ),
     BoardingModel(
-      image: 'assets/images/onboard_1.jpg',
+      image: 'assets/images/onboard3.png',
       title: 'On Board 3 Title',
       body: 'On Board 3 Body',
     ),

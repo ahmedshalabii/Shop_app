@@ -1,62 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:shop_app/layout/cubit/cubit.dart';
-import 'package:shop_app/layout/cubit/states.dart';
-import 'package:shop_app/models/categories_model.dart';
-import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/shared/cubit/cubit.dart';
 
-class CategoriesScreen extends StatefulWidget {
-  @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
-}
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return ListView.separated(
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) => buildCatItem(
-              ShopCubit.get(context).categoriesModel.data.data[index], context),
-          separatorBuilder: (context, index) => myDivider(),
-          itemCount: ShopCubit.get(context).categoriesModel.data.data.length,
-        );
-      },
+    return Scaffold(
+body:Container(
+
+  child: Center(child: Image(image:AssetImage('assets/images/empty_cart.png'),fit: BoxFit.fill,height: double.infinity,)),
+)
     );
   }
-
-  Widget buildCatItem(DataModel model, context) => Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            Image(
-              image: NetworkImage(model.image),
-              width: 80.0,
-              height: 80.0,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            Text(
-              model.name,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                color: AppCubit.get(context).isDark
-                    ? Colors.white
-                    : HexColor('242526'),
-              ),
-            ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-            ),
-          ],
-        ),
-      );
 }
+
+
+
