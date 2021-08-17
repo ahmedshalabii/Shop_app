@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/cubit/cubit.dart';
 import 'package:shop_app/layout/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 
 class ProfileScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
@@ -39,6 +40,10 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 20.0,
                       ),
+                      Text("Hello,",style: TextStyle(fontSize: 30,color: defaultColor),),
+                      SizedBox(height: 5.0,),
+                      Text(nameController.text,style: TextStyle(fontSize: 30,color: defaultColor),),
+                    
                       defaultFormField(
                         context: context,
                         controller: nameController,
