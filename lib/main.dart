@@ -76,8 +76,9 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) => ShopCubit()
             ..getHomeData()
             ..getCategories()
-            ..getFavorites()
-            ..getUserData(),
+           ..getFavorites()
+            ..getUserData()
+            ..getCart()
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/layout/cubit/cubit.dart';
+import 'package:shop_app/models/carts_model.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -12,6 +13,7 @@ Widget defaultButton({
   double radius = 3.0,
   @required Function function,
   @required String text,
+  context,
 }) =>
     Container(
       width: width,
@@ -44,23 +46,24 @@ Widget defaultTextButton({
       ),
     );
 
-Widget defaultFormField({
-  @required TextEditingController controller,
-  @required TextInputType type,
-  Function onSubmit,
-  Function onChange,
-  Function onTap,
-  bool isPassword = false,
-  @required Function validate,
-  @required String label,
-  @required IconData prefix,
-  IconData suffix,
-  Function suffixPressed,
-  bool isClickable = true,
-  context
-}) =>
+Widget defaultFormField(
+        {@required TextEditingController controller,
+        @required TextInputType type,
+        Function onSubmit,
+        Function onChange,
+        Function onTap,
+        bool isPassword = false,
+        @required Function validate,
+        @required String label,
+        @required IconData prefix,
+        IconData suffix,
+        Function suffixPressed,
+        bool isClickable = true,
+        context}) =>
     TextFormField(
-     style: TextStyle(color: AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),),
+      style: TextStyle(
+        color: AppCubit.get(context).isDark ? Colors.white : HexColor('242526'),
+      ),
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
@@ -70,14 +73,12 @@ Widget defaultFormField({
       onTap: onTap,
       validator: validate,
       decoration: InputDecoration(
-        
         labelText: label,
         prefixIcon: Icon(
-          
           prefix,
-          color:AppCubit.get(context).isDark ?Colors.white:HexColor('242526') ,
+          color:
+              AppCubit.get(context).isDark ? Colors.white : HexColor('242526'),
         ),
-        
         suffixIcon: suffix != null
             ? IconButton(
                 onPressed: suffixPressed,
@@ -86,32 +87,26 @@ Widget defaultFormField({
                 ),
               )
             : null,
-        border: OutlineInputBorder(
-
+        border: OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppCubit.get(context).isDark
+                ? Colors.white
+                : HexColor('242526'),
+            width: 2.0,
+          ),
         ),
-         enabledBorder: OutlineInputBorder(
-               
-                  borderSide: BorderSide(
-                     color: AppCubit.get(context).isDark ?Colors.white:HexColor('242526') ,
-                    width: 2.0,
-                  ),
-                ),
       ),
     );
 
 Widget myDivider() => Padding(
-      padding: const EdgeInsetsDirectional.only(
-        start: 70.0,end: 70
-      ),
+      padding: const EdgeInsetsDirectional.only(start: 70.0, end: 70),
       child: Container(
         width: double.infinity,
         height: 1.0,
         color: Colors.grey[100],
       ),
     );
-
-
-
 
 void navigateTo(context, widget) => Navigator.push(
       context,
@@ -218,7 +213,9 @@ Widget buildListProduct(
                     style: TextStyle(
                       fontSize: 14.0,
                       height: 1.3,
-                      color: AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),
+                      color: AppCubit.get(context).isDark
+                          ? Colors.white
+                          : HexColor('242526'),
                     ),
                   ),
                   Spacer(),
@@ -248,11 +245,114 @@ Widget buildListProduct(
                         onPressed: () {
                           ShopCubit.get(context).changeFavorites(model.id);
                         },
-                        icon:Icon(
-                          ShopCubit.get(context).favorites[model.id]? 
-                          Icons.favorite_sharp:Icons.favorite_border_sharp,
+                        icon: Icon(
+                          ShopCubit.get(context).favorites[model.id]
+                              ? Icons.favorite_sharp
+                              : Icons.favorite_border_sharp,
                           size: 25.0,
-                          color:ShopCubit.get(context).favorites[model.id]?Colors.redAccent:Colors.black45,
+                          color: ShopCubit.get(context).favorites[model.id]
+                              ? Colors.redAccent
+                              : Colors.black45,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+Widget buildListCartProduct(
+   model,
+  context, {
+  bool isOldPrice = true,
+}) =>
+    Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        height: 120.0,
+        child: Row(
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image(
+                  image: NetworkImage(model.image),
+                  width: 120.0,
+                  height: 120.0,
+                ),
+                if (model.discount != 0 && isOldPrice)
+                  Container(
+                    color: Colors.red,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.0,
+                    ),
+                    child: Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                        fontSize: 8.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(
+              width: 20.0,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      height: 1.3,
+                      color: AppCubit.get(context).isDark
+                          ? Colors.white
+                          : HexColor('242526'),
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Text(
+                        model.price.toString(),
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: defaultColor,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      if (model.discount != 0 && isOldPrice)
+                        Text(
+                          model.oldPrice.toString(),
+                          style: TextStyle(
+                            fontSize: 10.0,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          ShopCubit.get(context).changetoCart(model.id);
+                        },
+                        icon: Icon(
+                          ShopCubit.get(context).cart[model.id]
+                              ? Icons.shopping_cart
+                              : Icons.shopping_cart_outlined,
+                          size: 25.0,
+                          color: ShopCubit.get(context).cart[model.id]
+                              ? Colors.deepOrange
+                              : Colors.black45,
                         ),
                       ),
                     ],

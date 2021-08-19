@@ -44,7 +44,8 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                 ShopCubit.get(context).getFavorites();
                 ShopCubit.get(context).getHomeData();
                 ShopCubit.get(context).getUserData();
-                ShopCubit.get(context).getCategories();
+                // ShopCubit.get(context).getCategories();
+                ShopCubit.get(context).getCart();
 
                 navigateAndFinish(
                   context,
@@ -73,14 +74,22 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'LOGIN',
-                          style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.w300,color:AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),)
-                        ),
-                        Text(
-                          'Login now to browse our hot offers',
-                          style:TextStyle(fontSize: 15.0,fontWeight: FontWeight.w300,color:AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),)
-                        ),
+                        Text('LOGIN',
+                            style: TextStyle(
+                              fontSize: 35.0,
+                              fontWeight: FontWeight.w300,
+                              color: AppCubit.get(context).isDark
+                                  ? Colors.white
+                                  : HexColor('242526'),
+                            )),
+                        Text('Login now to browse our hot offers',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w300,
+                              color: AppCubit.get(context).isDark
+                                  ? Colors.white
+                                  : HexColor('242526'),
+                            )),
                         SizedBox(
                           height: 30.0,
                         ),
@@ -137,7 +146,6 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                                   email: emailController.value.text,
                                   password: passwordController.value.text,
                                 );
-                                
                               }
                             },
                             text: 'login',
@@ -153,7 +161,12 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Don\'t have an account?',style: TextStyle(color:AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),),
+                              'Don\'t have an account?',
+                              style: TextStyle(
+                                color: AppCubit.get(context).isDark
+                                    ? Colors.white
+                                    : HexColor('242526'),
+                              ),
                             ),
                             defaultTextButton(
                               function: () {

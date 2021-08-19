@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/layout/cubit/cubit.dart';
 import 'package:shop_app/layout/cubit/states.dart';
+
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -12,11 +13,13 @@ import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class ProductsScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
         if (state is ShopSuccessChangeFavoritesState) {
+          if(state is ShopSuccessChangeCartState) 
           if (!state.model.status) {
             showToast(
               text: state.model.message,
@@ -24,6 +27,7 @@ class ProductsScreen extends StatelessWidget {
             );
           }
         }
+
       },
       builder: (context, state) {
         return ConditionalBuilder(
@@ -39,27 +43,23 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget builderWidget(
-          HomeModel model, CategoriesModel categoriesModel, context) =>
+  Widget builderWidget(HomeModel model, CategoriesModel categoriesModel, context) =>
       SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
-              
               items: model.data.banners
                   .map(
                     (e) => Image(
                       image: NetworkImage(e.image),
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      
                     ),
                   )
                   .toList(),
               options: CarouselOptions(
-                
                 height: 200,
                 viewportFraction: 1.0,
                 enlargeCenterPage: false,
@@ -88,7 +88,7 @@ class ProductsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.w400,
-                      color:HexColor('219ebc'),
+                      color: HexColor('219ebc'),
                     ),
                   ),
                   SizedBox(
@@ -99,8 +99,8 @@ class ProductsScreen extends StatelessWidget {
                     child: ListView.separated(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          buildCategoryItem(categoriesModel.data.data[index],context),
+                      itemBuilder: (context, index) => buildCategoryItem(
+                          categoriesModel.data.data[index], context),
                       separatorBuilder: (context, index) => SizedBox(
                         width: 10.0,
                       ),
@@ -115,7 +115,7 @@ class ProductsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.w300,
-                      color:HexColor('219ebc'),
+                      color: HexColor('219ebc'),
                     ),
                   ),
                 ],
@@ -144,7 +144,7 @@ class ProductsScreen extends StatelessWidget {
         ),
       );
 
-  Widget buildCategoryItem(DataModel model,context) => Stack(
+  Widget buildCategoryItem(DataModel model, context) => Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Image(
@@ -172,18 +172,15 @@ class ProductsScreen extends StatelessWidget {
       );
 
   Widget buildGridProduct(ProductModel model, context) => Container(
- 
-        color: AppCubit.get(context).isDark ?HexColor('242526'):Colors.white,
+        color: AppCubit.get(context).isDark ? HexColor('242526') : Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Stack(
-                
                 alignment: AlignmentDirectional.bottomStart,
                 children: [
                   Image(
-                    
                     image: NetworkImage(model.image),
                     width: double.infinity,
                     height: 200.0,
@@ -211,15 +208,15 @@ class ProductsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    
                     model.name,
-                    
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 14.0,
                       height: 1.3,
-                       color: AppCubit.get(context).isDark ?Colors.white:HexColor('242526'),
+                      color: AppCubit.get(context).isDark
+                          ? Colors.white
+                          : HexColor('242526'),
                     ),
                   ),
                   Row(
@@ -254,6 +251,24 @@ class ProductsScreen extends StatelessWidget {
                           Icons.favorite_sharp:Icons.favorite_border_sharp,
                           size: 25.0,
                           color:ShopCubit.get(context).favorites[model.id]?Colors.redAccent:Colors.black45,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          
+                          ShopCubit.get(context).changetoCart(
+                             model.id,
+                          );
+                          print(model.id);
+                        },
+                        icon: Icon(
+                          ShopCubit.get(context).cart[model.id]
+                              ? Icons.shopping_cart
+                              : Icons.shopping_cart_outlined,
+                          size: 25.0,
+                          color: ShopCubit.get(context).cart[model.id]
+                              ? Colors.deepOrange
+                              : Colors.black45,
                         ),
                       ),
                     ],
