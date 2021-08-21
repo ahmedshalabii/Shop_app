@@ -245,4 +245,24 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopErrorGetCartState());
     });
   }
+  AddToCartModel addQuantityModel;
+  Future addQuantity({
+    @required int quantity,
+    @required int id,
+  }) {
+    return DioHelper.putData(
+      url: 'carts/$id',
+      data: {'quantity': quantity},
+      headers: {
+        'lang': 'en',
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      },
+    ).then((value) {
+      emit(ShopSuccessAddQuantity());
+    }).catchError((onError) {
+      emit(ShopErrorAddQuantity());
+    });
+  }
 }
+

@@ -55,6 +55,7 @@ class Product {
   String image;
   String name;
   String description;
+  dynamic images;
 
   Product(
       {this.id,
@@ -63,6 +64,7 @@ class Product {
         this.discount,
         this.image,
         this.name,
+        this.images,
         this.description});
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -73,6 +75,7 @@ class Product {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -84,6 +87,7 @@ class Product {
     data['image'] = this.image;
     data['name'] = this.name;
     data['description'] = this.description;
+    data['images'] = this.images;
     return data;
   }
 }

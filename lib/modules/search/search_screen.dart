@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
+
 import 'package:shop_app/modules/search/cubit/cubit.dart';
 import 'package:shop_app/modules/search/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -54,7 +54,7 @@ class SearchScreen extends StatelessWidget {
                     if (state is SearchSuccessState)
                       Expanded(
                         child: ListView.separated(
-                          itemBuilder: (context, index) => buildListProduct(
+                          itemBuilder: (context, index) => buildListSearchProduct(
                             SearchCubit.get(context).model.data.data[index],
                             context,
                             isOldPrice: false,

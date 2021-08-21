@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
            ..getFavorites()
             ..getUserData()
             ..getCart()
+            
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

@@ -29,6 +29,7 @@ class CartScreen extends StatelessWidget {
             itemCount: ShopCubit.get(context).cartModel.data.cartItems.length,
           ),
           fallback: (context) {
+           
             return CartEmpty(context);
 
             // return Center(child: CircularProgressIndicator());

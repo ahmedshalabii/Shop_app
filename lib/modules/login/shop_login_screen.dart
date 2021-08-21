@@ -44,7 +44,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                 ShopCubit.get(context).getFavorites();
                 ShopCubit.get(context).getHomeData();
                 ShopCubit.get(context).getUserData();
-                // ShopCubit.get(context).getCategories();
+                ShopCubit.get(context).getCategories();
                 ShopCubit.get(context).getCart();
 
                 navigateAndFinish(

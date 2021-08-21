@@ -22,6 +22,7 @@ class FavoritesScreen extends StatelessWidget {
                       .data
                       .data[index]
                       .product,
+                      
                   context);
             },
             separatorBuilder: (context, index) => myDivider(),

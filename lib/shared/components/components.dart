@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/layout/cubit/cubit.dart';
-import 'package:shop_app/models/carts_model.dart';
+import 'package:shop_app/modules/single_product_screen/single_product_screen.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -14,8 +14,10 @@ Widget defaultButton({
   @required Function function,
   @required String text,
   context,
+  Color color,
 }) =>
     Container(
+      color: color,
       width: width,
       height: 50.0,
       child: MaterialButton(
@@ -249,12 +251,15 @@ Widget buildListProduct(
                           ShopCubit.get(context).favorites[model.id]
                               ? Icons.favorite_sharp
                               : Icons.favorite_border_sharp,
-                          size: 25.0,
+                          size: 27.0,
                           color: ShopCubit.get(context).favorites[model.id]
                               ? Colors.redAccent
-                              : Colors.black45,
+                              : AppCubit.get(context).isDark
+                                  ? Colors.white
+                                  : HexColor('242526'),
                         ),
                       ),
+
                     ],
                   ),
                 ],
@@ -265,102 +270,239 @@ Widget buildListProduct(
       ),
     );
 Widget buildListCartProduct(
-   model,
+  model,
   context, {
   bool isOldPrice = true,
 }) =>
-    Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Container(
-        height: 120.0,
-        child: Row(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: [
-                Image(
-                  image: NetworkImage(model.image),
-                  width: 120.0,
-                  height: 120.0,
-                ),
-                if (model.discount != 0 && isOldPrice)
-                  Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.0,
-                    ),
-                    child: Text(
-                      'DISCOUNT',
-                      style: TextStyle(
-                        fontSize: 8.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    InkWell(
+      onTap: () {
+        navigateTo(context, SingleProductScreen(model));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          height: 120.0,
+          child: Row(
+            children: [
+              Stack(
+                alignment: AlignmentDirectional.bottomStart,
                 children: [
-                  Text(
-                    model.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      height: 1.3,
-                      color: AppCubit.get(context).isDark
-                          ? Colors.white
-                          : HexColor('242526'),
-                    ),
+                  Image(
+                    image: NetworkImage(model.image),
+                    width: 120.0,
+                    height: 120.0,
                   ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Text(
-                        model.price.toString(),
+                  if (model.discount != 0 && isOldPrice)
+                    Container(
+                      color: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                      ),
+                      child: Text(
+                        'DISCOUNT',
                         style: TextStyle(
-                          fontSize: 12.0,
-                          color: defaultColor,
+                          fontSize: 8.0,
+                          color: Colors.white,
                         ),
                       ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      if (model.discount != 0 && isOldPrice)
-                        Text(
-                          model.oldPrice.toString(),
-                          style: TextStyle(
-                            fontSize: 10.0,
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          ShopCubit.get(context).changetoCart(model.id);
-                        },
-                        icon: Icon(
-                          ShopCubit.get(context).cart[model.id]
-                              ? Icons.shopping_cart
-                              : Icons.shopping_cart_outlined,
-                          size: 25.0,
-                          color: ShopCubit.get(context).cart[model.id]
-                              ? Colors.deepOrange
-                              : Colors.black45,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        height: 1.3,
+                        color: AppCubit.get(context).isDark
+                            ? Colors.white
+                            : HexColor('242526'),
+                      ),
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Text(
+                          model.price.toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: defaultColor,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        if (model.discount != 0 && isOldPrice)
+                          Text(
+                            model.oldPrice.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {
+                            ShopCubit.get(context).changetoCart(model.id);
+                          },
+                          icon: Icon(
+                            ShopCubit.get(context).cart[model.id]
+                                ? Icons.shopping_cart
+                                : Icons.shopping_cart_outlined,
+                            size: 27.0,
+                            color: ShopCubit.get(context).cart[model.id]
+                                ? Colors.deepOrange
+                                : AppCubit.get(context).isDark
+                                    ? Colors.white
+                                    : HexColor('242526'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+Widget buildListSearchProduct(
+  model,
+  context, {
+  bool isOldPrice = true,
+}) =>
+    InkWell(
+      onTap: () {
+        navigateTo(context, SingleProductScreen(model));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          height: 120.0,
+          child: Row(
+            children: [
+              Stack(
+                alignment: AlignmentDirectional.bottomStart,
+                children: [
+                  Image(
+                    image: NetworkImage(model.image),
+                    width: 120.0,
+                    height: 120.0,
+                  ),
+                  if (model.discount != 0 && isOldPrice)
+                    Container(
+                      color: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                      ),
+                      child: Text(
+                        'DISCOUNT',
+                        style: TextStyle(
+                          fontSize: 8.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        height: 1.3,
+                        color: AppCubit.get(context).isDark
+                            ? Colors.white
+                            : HexColor('242526'),
+                      ),
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Text(
+                          model.price.toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: defaultColor,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.0,
+                        ),
+                        if (model.discount != 0 && isOldPrice)
+                          Text(
+                            model.oldPrice.toString(),
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {
+                            ShopCubit.get(context).changeFavorites(model.id);
+                          },
+                          icon: Icon(
+                            ShopCubit.get(context).favorites[model.id]
+                                ? Icons.favorite_sharp
+                                : Icons.favorite_border_sharp,
+                            size: 27.0,
+                            color: ShopCubit.get(context).favorites[model.id]
+                                ? Colors.redAccent
+                                : AppCubit.get(context).isDark
+                                    ? Colors.white
+                                    : HexColor('242526'),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            ShopCubit.get(context).changetoCart(
+                              model.id,
+                            );
+                            if (ShopCubit.get(context).cart[model.id]) {
+                              navigateTo(context, SingleProductScreen(model));
+                            }
+                            print(model.id);
+                          },
+                          icon: Icon(
+                            ShopCubit.get(context).cart[model.id]
+                                ? Icons.shopping_cart
+                                : Icons.shopping_cart_outlined,
+                            size: 27.0,
+                            color: ShopCubit.get(context).cart[model.id]
+                                ? Colors.deepOrange
+                                : AppCubit.get(context).isDark
+                                    ? Colors.white
+                                    : HexColor('242526'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shop_app/layout/cubit/states.dart';
 import 'package:shop_app/modules/search/search_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/shared/cubit/cubit.dart';
 
 import 'cubit/cubit.dart';
 
@@ -61,6 +60,8 @@ class _ShopLayoutState extends State<ShopLayout> {
                 BottomNavigationBar(
                   elevation: 50,
                   onTap: (index) {
+                    if(ShopCubit.get(context).homeModel != null
+              )
                     cubit.changeBottom(index);
                   },
                   currentIndex: cubit.currentIndex,

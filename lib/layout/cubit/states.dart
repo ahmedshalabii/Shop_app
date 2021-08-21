@@ -74,3 +74,6 @@ class ShopSuccessGetCartState extends ShopStates {}
 class ShopErrorGetCartState extends ShopStates {}
 class ShopErrorUpdateUserState extends ShopStates {}
 class ChangePasswordProfileVisibilityState extends ShopStates{}
+class ShopSuccessAddQuantity extends ShopStates {}
+
+class ShopErrorAddQuantity extends ShopStates {}
